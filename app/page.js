@@ -1,66 +1,85 @@
-import Image from "next/image";
 import styles from "./page.module.css";
+import RevealOnScroll from "./component/RevealOnScroll";
+import FeatureBudgetDemo from "./component/FeatureBudgetDemo";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <main className={styles.main}>
+      {/* NAVBAR */}
+      <nav className={styles.navbar}>
+        <div className={styles.navInner}>
+          <a href="/" className={styles.navLogo}>
+            <img
+              src="/logo.svg"
+              alt="Canopy logo"
+              className={styles.navLogoImg}
             />
-            Deploy Now
+            <span>Canopy</span>
           </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+          <ul className={styles.navLinks}>
+            <li>
+              <a href="#section-banner" className={styles.navLink}>
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="#section-logo" className={styles.navLink}>
+                Intro
+              </a>
+            </li>
+            <li>
+              <a href="#section-set-budget" className={styles.navLink}>
+                Demo
+              </a>
+            </li>
+            <li>
+              <a href="#section-hero-carousel" className={styles.navLink}>
+                Branding
+              </a>
+            </li>
+            <li>
+              <a href="#section-about-us" className={styles.navLink}>
+                Roots
+              </a>
+            </li>
+            <li>
+              <a href="#section-about-us" className={styles.navLink}>
+                Let's Grow
+              </a>
+            </li>
+          </ul>
         </div>
-      </main>
-    </div>
+      </nav>
+
+      {/* TEMP FIRST SECTION */}
+      <section id="section-banner" className={styles.heroSection}>
+        <img
+          src="https://placehold.co/1000/500/green"
+          alt="Placeholder"
+          style={{ width: "100%", height: "100vh", objectFit: "cover" }}
+        ></img>
+      </section>
+
+      {/* EXPERIENCE CANOPY SECTION */}
+      <section className={styles.experienceIntroSection}>
+        <h3 className={styles.interactiveAppHeading}>
+          Interactive app features
+        </h3>
+
+        <RevealOnScroll className={styles.typingTitleReveal}>
+          <h1 className={styles.interactiveAppTitle}>
+            <span className={styles.typingText}>Experience Canopy</span>
+          </h1>
+        </RevealOnScroll>
+
+        <h2 className={styles.interactiveAppDescription}>
+          Click, Type, and Hover to preview
+        </h2>
+      </section>
+
+      {/* FEATURE 1 */}
+      <FeatureBudgetDemo />
+    </main>
   );
 }
