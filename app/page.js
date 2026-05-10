@@ -1,6 +1,7 @@
 import styles from "./page.module.css";
 import RevealOnScroll from "./component/RevealOnScroll";
 import FeatureBudgetDemo from "./component/FeatureBudgetDemo";
+import TeamSection from "./component/TeamSection";
 
 export default function Home() {
   return (
@@ -80,6 +81,29 @@ export default function Home() {
 
       {/* FEATURE 1 */}
       <FeatureBudgetDemo />
+
+      {/* CTA Message Section */}
+      <RevealOnScroll className={styles.ctaMessageSection}>
+        <h1 className={styles.ctaMessage}>
+          <span className={styles.ctaLineMask}>
+            <span className={styles.ctaSans}>Start small.</span>
+          </span>
+
+          <span className={styles.ctaLineMask}>
+            <span className={styles.ctaSans}>Stay on track.</span>
+          </span>
+
+          <span className={styles.ctaLineMask}>
+            <span className={styles.ctaSerif}>Grow with Canopy.</span>
+          </span>
+        </h1>
+      </RevealOnScroll>
+
+      {/* Meet the Team Section */}
+      <TeamSection />
+
+      {/* Promo Video */}
+      <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Video Title</h1>
     </main>
   );
 }

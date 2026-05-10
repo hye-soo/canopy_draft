@@ -1,12 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/app/page.module.css";
 import ScrollMoveText from "./ScrollMoveText";
 
 export default function FeatureBudgetDemo() {
   const [mode, setMode] = useState("budget");
   const [budgetType, setBudgetType] = useState("daily");
+  const [todayDate, setTodayDate] = useState("");
+
+  const [expenseName, setExpenseName] = useState("");
+  const [expenseAmount, setExpenseAmount] = useState("");
+  const [budgetAmount, setBudgetAmount] = useState("");
+
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const [saveStatus, setSaveStatus] = useState("");
+
+  const categories = [
+    "Food",
+    "Drink",
+    "Transport",
+    "Groceries",
+    "Health",
+    "Shopping",
+    "Housing",
+  ];
+
+  useEffect(() => {
+    const formattedDate = new Date().toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+
+    setTodayDate(formattedDate);
+  }, []);
+
+  function handleSave() {
+    setSaveStatus("Saved ✓");
+
+    setTimeout(() => {
+      setSaveStatus("");
+    }, 1600);
+  }
 
   return (
     <section className={styles.featureGrid}>
@@ -16,7 +53,11 @@ export default function FeatureBudgetDemo() {
           <div className={styles.appTopTabs}>
             <button
               type="button"
-              onClick={() => setMode("expense")}
+              onClick={() => {
+                setMode("expense");
+                setIsCategoryOpen(false);
+                setSaveStatus("");
+              }}
               className={`${styles.appTopTab} ${
                 mode === "expense" ? styles.appTopTabActive : ""
               }`}
@@ -26,7 +67,11 @@ export default function FeatureBudgetDemo() {
 
             <button
               type="button"
-              onClick={() => setMode("budget")}
+              onClick={() => {
+                setMode("budget");
+                setIsCategoryOpen(false);
+                setSaveStatus("");
+              }}
               className={`${styles.appTopTab} ${
                 mode === "budget" ? styles.appTopTabActive : ""
               }`}
@@ -46,27 +91,70 @@ export default function FeatureBudgetDemo() {
             <div className={styles.expenseForm}>
               <div className={styles.fullField}>
                 <label>Expense Name</label>
-                <div className={styles.previewInput}></div>
+                <input
+                  className={styles.previewInput}
+                  type="text"
+                  value={expenseName}
+                  onChange={(event) => setExpenseName(event.target.value)}
+                  placeholder="Coffee"
+                />
               </div>
 
               <div className={styles.inputGrid}>
                 <div className={styles.fieldGroup}>
                   <label>Amount</label>
-                  <div className={styles.previewInput}>$</div>
+                  <input
+                    className={styles.previewInput}
+                    type="text"
+                    inputMode="decimal"
+                    value={expenseAmount}
+                    onChange={(event) => setExpenseAmount(event.target.value)}
+                    placeholder="$"
+                  />
                 </div>
 
                 <div className={styles.fieldGroup}>
                   <label>Date</label>
-                  <div className={styles.previewInput}>Apr 13</div>
+                  <div className={styles.previewInput}>{todayDate}</div>
                 </div>
               </div>
 
               <div className={styles.fullField}>
                 <label>Categories</label>
-                <div className={styles.previewInput}>
-                  <span></span>
-                  <span className={styles.selectArrow}>▸</span>
-                </div>
+
+                <button
+                  type="button"
+                  className={styles.categorySelect}
+                  onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                >
+                  <span>{selectedCategory}</span>
+
+                  <span
+                    className={`${styles.selectArrow} ${
+                      isCategoryOpen ? styles.selectArrowOpen : ""
+                    }`}
+                  >
+                    ▸
+                  </span>
+                </button>
+
+                {isCategoryOpen && (
+                  <div className={styles.categoryDropdown}>
+                    {categories.map((category) => (
+                      <button
+                        key={category}
+                        type="button"
+                        className={styles.categoryOption}
+                        onClick={() => {
+                          setSelectedCategory(category);
+                          setIsCategoryOpen(false);
+                        }}
+                      >
+                        {category}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ) : (
@@ -103,18 +191,33 @@ export default function FeatureBudgetDemo() {
               <div className={styles.inputGrid}>
                 <div className={styles.fieldGroup}>
                   <label>Amount</label>
-                  <div className={styles.previewInput}>$</div>
+                  <input
+                    className={styles.previewInput}
+                    type="text"
+                    inputMode="decimal"
+                    value={budgetAmount}
+                    onChange={(event) => setBudgetAmount(event.target.value)}
+                    placeholder="$"
+                  />
                 </div>
 
                 <div className={styles.fieldGroup}>
                   <label>Date</label>
-                  <div className={styles.previewInput}>Apr 13</div>
+                  <div className={styles.previewInput}>{todayDate}</div>
                 </div>
               </div>
             </div>
           )}
 
-          <button className={styles.previewSaveButton}>Save</button>
+          <button
+            type="button"
+            className={`${styles.previewSaveButton} ${
+              saveStatus ? styles.previewSaveButtonSaved : ""
+            }`}
+            onClick={handleSave}
+          >
+            {saveStatus || "Save"}
+          </button>
         </div>
       </div>
 
@@ -122,12 +225,20 @@ export default function FeatureBudgetDemo() {
         <span className={styles.featureNumber}>01</span>
 
         <ScrollMoveText className={styles.featureTextScroll}>
-          <h2>Set your budget and log expenses</h2>
+          <h2>
+            Log expenses and <br /> Set budgets
+          </h2>
 
-          <p className={styles.featureDescription}>
-            Quickly add expenses, set daily or monthly budgets, and check your
-            daily budget.
-          </p>
+          <div className={styles.featureTextBottom}>
+            <p className={styles.featureDescription}>
+              Quickly add expenses, set daily or monthly budgets, and check your
+              daily budget.
+            </p>
+
+            <p className={styles.featureHint}>
+              Try it: type, switch, and save.
+            </p>
+          </div>
         </ScrollMoveText>
       </div>
     </section>
